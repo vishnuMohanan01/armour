@@ -1,3 +1,5 @@
+## Columns
+```python
 Index(['Protocol', 'Flow Duration', 'Total Fwd Packets',
        'Total Length of Fwd Packets', 'Fwd Packet Length Mean',
        'Fwd Packet Length Std', 'Flow IAT Mean', 'Flow IAT Std',
@@ -12,3 +14,15 @@ Index(['Protocol', 'Flow Duration', 'Total Fwd Packets',
        'act_data_pkt_fwd', 'min_seg_size_forward', 'Active Mean', 'Active Std',
        'Idle Mean', 'Idle Std', 'Inbound'],
       dtype='object')
+```
+
+## notes
+1. don't standardise Inbound and Protocol
+2. must be safe to remove FWD URG Flags (all zero)
+3. ...
+
+## Tshark fields for each cols
+> Protocol: 
+> 
+> 
+> 
