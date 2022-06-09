@@ -19,10 +19,17 @@ Index(['Protocol', 'Flow Duration', 'Total Fwd Packets',
 ## notes
 1. don't standardise Inbound and Protocol
 2. must be safe to remove FWD URG Flags (all zero)
-3. ...
+3. Protocol field include protocol numbers [17 - UDP, 6 - TCP, 0 - IPV6 HOP]
+4. Remove Fwd Avg Bytes/Bulk	Fwd Avg Packets/Bulk	Fwd Avg Bulk Rate
+5. Remove ECE Flag Count
+6. Remove PSH Flag Count
+7. Remove FIN Flag Count
+8. in data labels, 1.0 means attack and 0.0 means not an attack
+9. PI-CAT is a combined categorical attr for Protocol-Inbound
+10. 
 
 ## Tshark fields for each cols
 > Protocol: 
 > 
 > 
-> 
+>
