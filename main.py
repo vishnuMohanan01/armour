@@ -1,9 +1,9 @@
 from scapy.sendrecv import AsyncSniffer
 
-from custom_session import generate_session_class
+from pcapture.custom_session import generate_session_class
 
 
-def create_sniffer(input_interface, sys_dst_ip, cb=None):
+def create_sniffer(input_interface, sys_dst_ip):
     assert (input_interface is None)
 
     custom_session = generate_session_class(sys_dst_ip)
@@ -11,22 +11,16 @@ def create_sniffer(input_interface, sys_dst_ip, cb=None):
     return AsyncSniffer(
         iface=input_interface,
         filter="ip and (tcp or udp)",
-        # prn=cb,
+        prn=None,
         session=custom_session,
         store=False,
         count=0
     )
 
 
-# TODO: this should be replaced with different func name
 def main():
     input_interface = None
     sys_dst_ip = None
-
-    # TEST: this is a simple callback function
-    def simple_cb(foo, bar):
-        print(f"Simple CB happened. Args: {foo}, {bar}")
-        pass
 
     sniffer = create_sniffer(
         # cb=simple_cb,
@@ -44,6 +38,7 @@ def main():
         sniffer.join()
 
 
-# TODO: should be removed
 if __name__ == "__main__":
+    """This is the entry point of A-R-M-O-U-R
+    """
     main()
