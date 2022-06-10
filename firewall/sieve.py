@@ -31,4 +31,4 @@ class Firewall:
         1 - attack
         0 - not an attack
         """
-        print(self.__clf_model.predict(self.__X))
+        print(f"{self.packet_info['src_ip'].values[0]}:{self.packet_info['src_port'].values[0]} - {self.__clf_model.predict(self.__X)}")
