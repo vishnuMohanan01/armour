@@ -1,3 +1,8 @@
+import pandas as pd
+
+from classifier.pipeline import create_pipeline
+
+
 class Firewall:
     def __init__(self, clf_model, packet_info) -> None:
         """
@@ -7,13 +12,17 @@ class Firewall:
         :return: None
         """
         self.__clf_model = clf_model
+        self.__pipeline = None
+        self.__X = None
 
-        self.packet_info = packet_info
+        self.packet_info = pd.DataFrame(packet_info, index=[0])
 
     def filter(self) -> None:
         """
         triggers clf funcs and blacklisting procedures
         :return: None
         """
-        
+        self.__pipeline = create_pipeline()
+        self.__X = self.__pipeline.fit_transform(self.packet_info)
 
+        print(self.__clf_model.predict(self.__X))
