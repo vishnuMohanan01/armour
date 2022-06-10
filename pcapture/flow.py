@@ -91,6 +91,8 @@ class Flow:
         idle_stat = get_statistics(self.idle)
 
         packet_info = {
+            "src_ip": self.src_ip,
+            "src_port": self.src_port,
             "Protocol": self.protocol,
             "Inbound": self.packet_direction.get_inbound(),
             'URG Flag Count': flag_count.has_flag("URG", PacketDirection.Direction.FORWARD),
