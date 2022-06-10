@@ -21,7 +21,7 @@ def create_pipeline():
     ])
 
     cat_pipeline = Pipeline([
-        ('selector', DataFrameSelector(req_cols['categorical_pipeline'])),
+        ('selector', DataFrameSelector(req_cols['categorical_cols'])),
         ('one_hot_encoder', OneHotEncoder(sparse=False))
     ])
 
