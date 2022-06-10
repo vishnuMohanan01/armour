@@ -3,10 +3,10 @@ from scapy.sendrecv import AsyncSniffer
 from pcapture.custom_session import generate_session_class
 
 
-def create_sniffer(input_interface, sys_dst_ip):
+def create_sniffer(input_interface, sys_ip):
     assert (input_interface is None)
 
-    custom_session = generate_session_class(sys_dst_ip)
+    custom_session = generate_session_class(sys_ip)
 
     return AsyncSniffer(
         iface=input_interface,

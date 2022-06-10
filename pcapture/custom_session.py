@@ -28,7 +28,7 @@ class CustomSession(DefaultSession):
         return super(CustomSession, self).toPacketList()
 
     def on_packet_received(self, packet):
-        packet_direction = PacketDirection(packet=packet, sys_dst_ip=self.sys_dst_ip)
+        packet_direction = PacketDirection(packet=packet, sys_ip=self.sys_ip)
         direction = packet_direction.get_direction()
 
         flow = Flow(packet, direction, packet_direction)
@@ -39,11 +39,11 @@ class CustomSession(DefaultSession):
         print()
 
 
-def generate_session_class(dst_ip):
+def generate_session_class(sys_ip):
     return type(
         "NewSession",
         (CustomSession,),
         {
-            "sys_dst_ip": dst_ip,
+            "sys_ip": sys_ip,
         },
     )

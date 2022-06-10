@@ -4,8 +4,8 @@ from enum import Enum, auto
 
 
 class PacketDirection:
-    def __init__(self, packet, sys_dst_ip):
-        self.sys_dst_ip = sys_dst_ip
+    def __init__(self, packet, sys_ip):
+        self.sys_ip = sys_ip
         self.packet = packet
 
     class Direction(Enum):
@@ -23,7 +23,7 @@ class PacketDirection:
         """Return Packet's inbound or outbound direction
         """
 
-        if self.sys_dst_ip == self.packet["IP"].dst:
+        if self.sys_ip == self.packet["IP"].dst:
             return self.Direction.FORWARD
         else:
             return self.Direction.REVERSE
@@ -66,4 +66,3 @@ class PacketDirection:
             dest_port = self.packet[protocol].sport
 
         return dest_ip, src_ip, src_port, dest_port
-
