@@ -22,13 +22,14 @@ class Flow:
             packet (Any): A packet from the network.
             direction (Enum): The direction the packet is going ove the wire.
         """
-
+        self.packet_direction = packet_direction
         (
             self.dest_ip,
             self.src_ip,
             self.src_port,
             self.dest_port,
-        ) = packet_direction.get_packet_flow_key()
+        ) = self.packet_direction.get_packet_flow_key()
+
 
         self.packets = []
         self.flow_interarrival_time = []
@@ -90,6 +91,8 @@ class Flow:
         idle_stat = get_statistics(self.idle)
 
         packet_info = {
+            "Protocol": self.protocol,
+            "Inbound": self.packet_direction.get_inbound(),
             'URG Flag Count': flag_count.has_flag("URG", PacketDirection.Direction.FORWARD),
             'Fwd PSH Flags': flag_count.has_flag("PSH", PacketDirection.Direction.FORWARD),
             'RST Flag Count': flag_count.has_flag("RST"),
