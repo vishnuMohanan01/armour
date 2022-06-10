@@ -4,6 +4,7 @@ from collections import defaultdict
 from scapy.sessions import DefaultSession
 
 from features.context.packet_direction import PacketDirection
+from firewall.sieve import firewall
 from flow import Flow
 
 EXPIRED_UPDATE = 40
@@ -33,10 +34,13 @@ class CustomSession(DefaultSession):
 
         flow = Flow(packet, direction, packet_direction)
         flow.add_packet(packet, direction)
-        data = flow.get_data()
+        packet_info = flow.get_data()
 
-        print(data)
-        print()
+        """Trigger Firewall
+        Entry point to CLF Pipeline and 
+        IP blacklisting procedures
+        """
+        firewall(packet_info)
 
 
 def generate_session_class(sys_ip):
