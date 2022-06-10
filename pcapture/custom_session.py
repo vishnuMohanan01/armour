@@ -37,7 +37,6 @@ class CustomSession(DefaultSession):
 
         print(data)
         print()
-        # self.prn("arg1", "arg2")
 
 
 def generate_session_class(dst_ip):
