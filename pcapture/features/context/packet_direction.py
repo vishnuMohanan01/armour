@@ -28,6 +28,13 @@ class PacketDirection:
         else:
             return self.Direction.REVERSE
 
+    def get_inbound(self) -> int:
+        """
+        return 1 if Direction is Forward, else 0
+        :return: int
+        """
+        return 1 if self.get_direction() == self.Direction.FORWARD else 0
+
     def get_packet_flow_key(self) -> tuple:
         """Creates a key signature for a packet.
 
