@@ -1,6 +1,6 @@
 import pandas as pd
 
-from classifier.pipeline import create_pipeline
+from firewall.classifier.pipeline import create_pipeline
 
 
 class Firewall:

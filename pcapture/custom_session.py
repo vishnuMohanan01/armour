@@ -3,9 +3,9 @@ from collections import defaultdict
 
 from scapy.sessions import DefaultSession
 
-from features.context.packet_direction import PacketDirection
+from pcapture.features.context.packet_direction import PacketDirection
 from firewall.sieve import Firewall
-from flow import Flow
+from pcapture.flow import Flow
 
 EXPIRED_UPDATE = 40
 MACHINE_LEARNING_API = "http://localhost:8000/predict"
