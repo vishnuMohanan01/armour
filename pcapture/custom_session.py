@@ -40,14 +40,15 @@ class CustomSession(DefaultSession):
         Entry point to CLF Pipeline and 
         IP blacklisting procedures
         """
-        firewall(packet_info)
+        firewall(clf_model=self.clf_model, packet_info=packet_info)
 
 
-def generate_session_class(sys_ip):
+def generate_session_class(clf_model, sys_ip):
     return type(
         "NewSession",
         (CustomSession,),
         {
-            "sys_ip": sys_ip,
+            "clf_model": clf_model,
+            "sys_ip": sys_ip
         },
     )

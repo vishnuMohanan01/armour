@@ -4,10 +4,10 @@ from firewall.utils.model_utils import load_clf_model
 from pcapture.custom_session import generate_session_class
 
 
-def create_sniffer(input_interface, sys_ip):
+def create_sniffer(clf_model, input_interface, sys_ip):
     assert (input_interface is None)
 
-    custom_session = generate_session_class(sys_ip)
+    custom_session = generate_session_class(clf_model, sys_ip)
 
     return AsyncSniffer(
         iface=input_interface,
@@ -19,12 +19,12 @@ def create_sniffer(input_interface, sys_ip):
     )
 
 
-def main():
+def main(clf_model):
     input_interface = None
     sys_ip = None
 
     sniffer = create_sniffer(
-        # cb=simple_cb,
+        clf_model=clf_model,
         input_interface=input_interface,
         sys_ip=sys_ip
     )
@@ -43,4 +43,4 @@ if __name__ == "__main__":
     """This is the entry point of A-R-M-O-U-R
     """
     clf_model = load_clf_model("rf_28")
-    main()
+    main(clf_model)
