@@ -15,3 +15,7 @@ NUMERICAL_COLS = [
     'Fwd IAT Total', 'Active Std', 'SYN Flag Count', 'Fwd IAT Std',
     'Flow IAT Std', 'Subflow Fwd Bytes', 'Total Length of Fwd Packets'
 ]
+KNOWN_CATEGORIES = [
+    [0, 6, 17],
+    [0, 1]
+]

@@ -3,6 +3,7 @@ from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.preprocessing import StandardScaler
 
+from firewall.classifier.constants import KNOWN_CATEGORIES
 from firewall.classifier.custom_transformers import DataFrameSelector
 from firewall.utils.model_utils import get_req_cols
 
@@ -22,7 +23,7 @@ def create_pipeline():
 
     cat_pipeline = Pipeline([
         ('selector', DataFrameSelector(req_cols['categorical_cols'])),
-        ('one_hot_encoder', OneHotEncoder(sparse=False))
+        ('one_hot_encoder', OneHotEncoder(sparse=False, categories=KNOWN_CATEGORIES))
     ])
 
     return FeatureUnion(transformer_list=[
