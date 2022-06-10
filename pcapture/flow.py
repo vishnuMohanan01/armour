@@ -1,7 +1,7 @@
 from enum import Enum
 from typing import Any
 
-import pcapture.constants
+from pcapture.constants import BULK_BOUND, ACTIVE_TIMEOUT, CLUMP_TIMEOUT
 # from pcapture.features.context import packet_flow_key
 from pcapture.features.context.packet_direction import PacketDirection
 from pcapture.features.flag_count import FlagCount
@@ -166,7 +166,7 @@ class Flow:
         last_timestamp = (
             self.latest_timestamp if self.latest_timestamp != 0 else packet.time
         )
-        if (packet.time - last_timestamp) > constants.CLUMP_TIMEOUT:
+        if (packet.time - last_timestamp) > CLUMP_TIMEOUT:
             self.update_active_idle(packet.time - last_timestamp)
 
     def update_active_idle(self, current_time):
@@ -176,7 +176,7 @@ class Flow:
             packet: Packet to be update active time
 
         """
-        if (current_time - self.last_active) > constants.ACTIVE_TIMEOUT:
+        if (current_time - self.last_active) > ACTIVE_TIMEOUT:
             duration = abs(float(self.last_active - self.start_active))
             if duration > 0:
                 self.active.append(1e6 * duration)
@@ -207,7 +207,7 @@ class Flow:
             else:
                 if (
                     packet.time - self.forward_bulk_last_timestamp
-                ) > constants.CLUMP_TIMEOUT:
+                ) > CLUMP_TIMEOUT:
                     self.forward_bulk_start_tmp = packet.time
                     self.forward_bulk_last_timestamp = packet.time
                     self.forward_bulk_count_tmp = 1
@@ -215,14 +215,14 @@ class Flow:
                 else:  # Add to bulk
                     self.forward_bulk_count_tmp += 1
                     self.forward_bulk_size_tmp += payload_size
-                    if self.forward_bulk_count_tmp == constants.BULK_BOUND:
+                    if self.forward_bulk_count_tmp == BULK_BOUND:
                         self.forward_bulk_count += 1
                         self.forward_bulk_packet_count += self.forward_bulk_count_tmp
                         self.forward_bulk_size += self.forward_bulk_size_tmp
                         self.forward_bulk_duration += (
                             packet.time - self.forward_bulk_start_tmp
                         )
-                    elif self.forward_bulk_count_tmp > constants.BULK_BOUND:
+                    elif self.forward_bulk_count_tmp > BULK_BOUND:
                         self.forward_bulk_packet_count += 1
                         self.forward_bulk_size += payload_size
                         self.forward_bulk_duration += (
@@ -240,7 +240,7 @@ class Flow:
             else:
                 if (
                     packet.time - self.backward_bulk_last_timestamp
-                ) > constants.CLUMP_TIMEOUT:
+                ) > CLUMP_TIMEOUT:
                     self.backward_bulk_start_tmp = packet.time
                     self.backward_bulk_last_timestamp = packet.time
                     self.backward_bulk_count_tmp = 1
@@ -248,14 +248,14 @@ class Flow:
                 else:  # Add to bulk
                     self.backward_bulk_count_tmp += 1
                     self.backward_bulk_size_tmp += payload_size
-                    if self.backward_bulk_count_tmp == constants.BULK_BOUND:
+                    if self.backward_bulk_count_tmp == BULK_BOUND:
                         self.backward_bulk_count += 1
                         self.backward_bulk_packet_count += self.backward_bulk_count_tmp
                         self.backward_bulk_size += self.backward_bulk_size_tmp
                         self.backward_bulk_duration += (
                             packet.time - self.backward_bulk_start_tmp
                         )
-                    elif self.backward_bulk_count_tmp > constants.BULK_BOUND:
+                    elif self.backward_bulk_count_tmp > BULK_BOUND:
                         self.backward_bulk_packet_count += 1
                         self.backward_bulk_size += payload_size
                         self.backward_bulk_duration += (
