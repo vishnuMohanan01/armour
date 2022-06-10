@@ -1,5 +1,6 @@
 from scapy.sendrecv import AsyncSniffer
 
+from firewall.utils.model_utils import load_clf_model
 from pcapture.custom_session import generate_session_class
 
 
@@ -20,12 +21,12 @@ def create_sniffer(input_interface, sys_ip):
 
 def main():
     input_interface = None
-    sys_dst_ip = None
+    sys_ip = None
 
     sniffer = create_sniffer(
         # cb=simple_cb,
         input_interface=input_interface,
-        sys_dst_ip=sys_dst_ip
+        sys_ip=sys_ip
     )
 
     sniffer.start()
@@ -41,4 +42,5 @@ def main():
 if __name__ == "__main__":
     """This is the entry point of A-R-M-O-U-R
     """
+    clf_model = load_clf_model("rf_28")
     main()
