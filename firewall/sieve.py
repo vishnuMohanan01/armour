@@ -25,4 +25,10 @@ class Firewall:
         self.__pipeline = create_pipeline()
         self.__X = self.__pipeline.fit_transform(self.packet_info)
 
+        """predicted results will look like
+        [1.] and [0.]
+        
+        1 - attack
+        0 - not an attack
+        """
         print(self.__clf_model.predict(self.__X))
