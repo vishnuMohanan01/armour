@@ -47,7 +47,7 @@ def main() -> None:
     """
     input_interface = None
     sys_ip = cmd_args.ip
-    clf_model = load_clf_model("dtree_28")
+    clf_model = load_clf_model("rf_28")
 
     """created and manages sniffer
     """
