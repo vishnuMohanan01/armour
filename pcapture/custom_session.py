@@ -4,6 +4,7 @@ from collections import defaultdict
 from scapy.sessions import DefaultSession
 
 from pcapture.features.context.packet_direction import PacketDirection
+from firewall.listing.whitelist_utils import is_port_white_listed
 from firewall.sieve import Firewall
 from pcapture.flow import Flow
 
@@ -19,6 +20,7 @@ class CustomSession(DefaultSession):
 
         self.packets_count = 0
         self.clumped_flows_per_label = defaultdict(list)
+        self.firewall = Firewall(clf_model=self.clf_model)
 
         super(CustomSession, self).__init__(*args, **kwargs)
 
@@ -40,8 +42,8 @@ class CustomSession(DefaultSession):
         Entry point to CLF Pipeline and 
         IP blacklisting procedures
         """
-        firewall = Firewall(clf_model=self.clf_model, packet_info=packet_info)
-        firewall.filter()
+        if not is_port_white_listed(packet_info['src_port']):
+            self.firewall.filter(packet_info=packet_info)
 
 
 def generate_session_class(clf_model, sys_ip):
