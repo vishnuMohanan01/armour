@@ -4,25 +4,26 @@ from firewall.classifier.pipeline import create_pipeline
 
 
 class Firewall:
-    def __init__(self, clf_model, packet_info) -> None:
+    def __init__(self, clf_model) -> None:
         """
 
         :param clf_model: sklearn model instance
-        :param packet_info: dictionary containing all attrs required fir classification
         :return: None
         """
         self.__clf_model = clf_model
-        self.__pipeline = None
+        self.packet_info = None
+        self.__pipeline = create_pipeline()
         self.__X = None
 
-        self.packet_info = pd.DataFrame(packet_info, index=[0])
-
-    def filter(self) -> None:
+    def filter(self, packet_info) -> None:
         """
         triggers clf funcs and blacklisting procedures
+        :param packet_info: dictionary containing all attrs required fir classification
+
         :return: None
         """
-        self.__pipeline = create_pipeline()
+        self.packet_info = pd.DataFrame(packet_info, index=[0])
+
         self.__X = self.__pipeline.fit_transform(self.packet_info)
 
         """predicted results will look like
@@ -31,4 +32,6 @@ class Firewall:
         1 - attack
         0 - not an attack
         """
+        # DO EVERYTHING HERE
         print(f"{self.packet_info['src_ip'].values[0]}:{self.packet_info['src_port'].values[0]} - {self.__clf_model.predict(self.__X)}")
+
