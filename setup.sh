@@ -22,5 +22,28 @@ pip install -r requirements.txt
 # install and config sqlite
 apt install sqlite3 -y
 mkdir -p $DB_ROOT
-`which python` migrations/armour.sqlite.py $PROJECT_NAME && echo "Migrations Complete"
+`which python` migrations/armour.sqlite.py $PROJECT_NAME && echo "Migrations Complete."
 
+
+# persist iptables
+apt-get install -y debconf-utils
+echo "iptables-persistent iptables-persistent/autosave_v6 boolean false" | debconf-set-selections -v
+echo "iptables-persistent iptables-persistent/autosave_v4 boolean false" | debconf-set-selections -v
+sudo apt-get -y install iptables-persistent
+
+
+# installing ipset
+IPSET_NAME="armour-blacklist"
+apt install ipset -y
+ipset create $IPSET_NAME hash:ip
+sudo iptables -I INPUT -m set --match-set $IPSET_NAME src -j DROP
+# To remove the above rule: sudo iptables -D INPUT -m set --match-set $IPSET_NAME src -j DROP
+# making ipset persistent
+touch /etc/ipsets.conf
+mv confs/ipset-persistent.service /etc/systemd/system/ipset-persistent.service
+sudo systemctl daemon-reload
+sudo systemctl start ipset-persistent
+sudo systemctl enable ipset-persistent
+
+# to add ip to set: ipset add armour-blacklist 206.189.130.141
+# delete entry: ipset del armour-blacklist 206.189.130.141
