@@ -4,7 +4,7 @@ from collections import defaultdict
 from scapy.sessions import DefaultSession
 
 from pcapture.features.context.packet_direction import PacketDirection
-from firewall.listing.whitelist_utils import is_port_white_listed
+from firewall.blacklist.whitelist_utils import is_port_white_listed
 from firewall.sieve import Firewall
 from pcapture.flow import Flow
 
