@@ -41,6 +41,9 @@ class CustomSession(DefaultSession):
         """Trigger Firewall
         Entry point to CLF Pipeline and 
         IP blacklisting procedures
+        
+        To run filter without port whitelisting,
+        Remove the if wrapping
         """
         if not is_port_white_listed(packet_info['src_port']):
             self.firewall.filter(packet_info=packet_info)
