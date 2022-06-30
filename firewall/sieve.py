@@ -1,5 +1,6 @@
 import pandas as pd
 
+from firewall.blacklist.blacklist_utils import blacklist
 from firewall.classifier.pipeline import create_pipeline
 
 
@@ -14,6 +15,7 @@ class Firewall:
         self.packet_info = None
         self.__pipeline = create_pipeline()
         self.__X = None
+        self.__ip_dict = {}
 
     def filter(self, packet_info) -> None:
         """
@@ -33,5 +35,14 @@ class Firewall:
         0 - not an attack
         """
         # DO EVERYTHING HERE
-        print(f"{self.packet_info['src_ip'].values[0]}:{self.packet_info['src_port'].values[0]} - {self.__clf_model.predict(self.__X)}")
+        # print(f"{self.packet_info['src_ip'].values[0]}:{self.packet_info['src_port'].values[0]} - {self.__clf_model.predict(self.__X)}")
+        y = self.__clf_model.predict(self.__X)
 
+        if y[0] == 1:
+            if not self.__ip_dict[self.packet_info['src_ip'].values[0]]:
+                self.__ip_dict[self.packet_info['src_ip'].values[0]] = 1
+            else:
+                self.__ip_dict[self.packet_info['src_ip'].values[0]] += 1
+
+        if self.__ip_dict[self.packet_info['src_ip'].values[0]] > 20:
+            blacklist(self.packet_info['src_ip'].values[0])
