@@ -14,10 +14,11 @@ if not os.path.exists(DB_ROOT):
 DB_PATH = os.path.join(DB_ROOT, DB_NAME)
 
 con = sqlite3.connect(DB_PATH)
-cur = con.cursor()
 
 # create blacklist
-cur.execute("CREATE TABLE blacklist (address text NOT NULL)")
+con.execute("CREATE TABLE blacklist (address text NOT NULL);")
 
 # create whitelist
-cur.execute("CREATE TABLE whitelist (address text NOT NULL)")
+con.execute("CREATE TABLE whitelist (address text NOT NULL);")
+
+con.close()
