@@ -2,6 +2,7 @@
 models
 
 # don't push local run script
+run.sh
 local.run.sh
 
 # Byte-compiled / optimized / DLL files
