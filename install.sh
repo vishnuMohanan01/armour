@@ -33,8 +33,8 @@ sudo apt-get -y install iptables-persistent
 
 
 # installing ipset
-IPSET_NAME="armour-blacklist"
 apt install ipset -y
+IPSET_NAME="armour-blacklist"
 ipset create $IPSET_NAME hash:ip
 sudo iptables -I INPUT -m set --match-set $IPSET_NAME src -j DROP
 # To remove the above rule: sudo iptables -D INPUT -m set --match-set $IPSET_NAME src -j DROP
