@@ -14,7 +14,7 @@ RemainAfterExit=yes
 ExecStart=/sbin/ipset restore -f -! /etc/ipsets.conf
 
 # save on service stop, system shutdown etc.
-ExecStop=/sbin/ipset save blacklist -f /etc/ipsets.conf
+ExecStop=/sbin/ipset save armour-blacklist -f /etc/ipsets.conf
 
 [Install]
 WantedBy=multi-user.target
