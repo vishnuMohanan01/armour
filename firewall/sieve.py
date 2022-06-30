@@ -39,9 +39,10 @@ class Firewall:
         y = self.__clf_model.predict(self.__X)
 
         if y[0] == 1:
+            print(not self.packet_info['src_ip'].values[0] in self.__ip_dict.keys())
             if not self.packet_info['src_ip'].values[0] in self.__ip_dict.keys():
                 self.__ip_dict[self.packet_info['src_ip'].values[0]] = 1
             else:
-                if self.__ip_dict[self.packet_info['src_ip'].values[0]] > 20:
+                if self.__ip_dict.get(self.packet_info['src_ip'].values[0], default=0) > 20:
                     blacklist(self.packet_info['src_ip'].values[0])
                 self.__ip_dict[self.packet_info['src_ip'].values[0]] += 1
